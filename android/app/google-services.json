@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "970953904842",
+    "project_id": "echangeplus-7faec",
+    "storage_bucket": "echangeplus-7faec.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:970953904842:android:f3609dcdb597ee40875a33",
+        "android_client_info": {
+          "package_name": "com.example.echange_plus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwojzUUCPBn5eO-TQXK0QnCCs2aTcO0SI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
