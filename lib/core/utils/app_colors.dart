@@ -5,7 +5,9 @@ abstract class AppColors{
  // red 
   static const Color redColor = Color(0xFFFF0000);      // Rouge
   static const Color yellowColor = Color(0xFFFFD700);   // Jaune
-  static const Color whiteColor = Color(0xFFFFFFFF);    // Blanc
+  static const Color whiteColor = Color(0xFFFFFFFF);
+
+  static var deepBrown;    // Blanc
 }
 
 

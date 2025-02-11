@@ -1,6 +1,8 @@
+import 'package:echange_plus/Featrures/splash/presentation/views/functions/navigation.dart';
 import 'package:echange_plus/core/utils/app_strings.dart';
 import 'package:flutter/material.dart';
 import "package:echange_plus/core/utils/app_text_style.dart";
+import 'package:go_router/go_router.dart';
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
 
@@ -13,22 +15,13 @@ class _SplashViewState extends State<SplashView> {
   @override
   void initState() {
     
-    delayedNavigate(context);
+    delayedNavigate();
     super.initState();
   }
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child:Text(
-        AppStrings.appTitle,
-        style: CustomTextStyles.Echange400style64,
-        ) ,
-      ),
-    );
-  }
-}
- void delayedNavigate(context) {
+
+  void delayedNavigate() {
+
+    // delayed Nvigate
      Future.delayed(
       const Duration(seconds: 2),
       (){
@@ -37,4 +30,21 @@ class _SplashViewState extends State<SplashView> {
         //customNavigate(context,"/onboarding");
       },
     );
+    //
+    
+
   }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child:Text(
+        AppStrings.appTitle,
+        style: CustomTextStyles.Pcifico400style64,
+        ) ,
+      ),
+    );
+  }
+}

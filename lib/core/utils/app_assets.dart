@@ -3,11 +3,15 @@ class Assets {
   Assets._();
   
   /// Assets for AssetsImages1
-  /// assets/images/1.jpg
-  static const String AssetsImages1 = "assets/images/1.jpg";
+  /// assets/images/1.png
+  static const String AssetsImages1 = "assets/images/1.png";
 
   /// Assets for AssetsImages2
-  /// assets/images/2.jpg
-  static const String AssetsImages2 = "assets/images/2.jpg";
+  /// assets/images/2.png
+  static const String AssetsImages2 = "assets/images/2.png";
+
+  /// Assets for AssetsImages3
+  /// assets/images/3.png
+  static const String AssetsImages3 = "assets/images/3.png";
 }
 

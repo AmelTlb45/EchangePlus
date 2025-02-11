@@ -1,4 +1,9 @@
 abstract class AppStrings {
+
+  // Ecran de Splash
+  static const String splashTitle = 'Bienvenue sur EchangePlus';
+  static const String splashSubtitle = 'L\'application d\'échange de services';
+
   // Page d'authentification
   static const String signIn = 'Se connecter';
   static const String signUp = 'S\'inscrire';
@@ -9,6 +14,25 @@ abstract class AppStrings {
   static const String forgotPassword = 'Mot de passe oublié ?';
   static const String signInWithGoogle = 'Se connecter avec Google';
   
+  // Onboarding
+  static const String skip = 'Passer';
+  static const String next = 'Suivant';
+  static const String finish = 'Terminer';
+
+  // Bazar (Echange de services)
+  
+  static const String availableServices = 'Services disponibles';
+  static const String myOffers = 'Mes offres';
+  static const String requestService = 'Demander un service';
+
+    // Page des services
+  static const String servicesTitle = 'Proposer des services';
+  static const String serviceDescriptionHint = 'Description du service';
+  static const String servicePriceHint = 'Prix estimé';
+  static const String addServiceButton = 'Ajouter un service';
+  static const String serviceListedSuccessfully = 'Service ajouté avec succès';
+  static const String serviceError = 'Une erreur est survenue lors de l\'ajout du service';
+
   // Page de profil
   static const String profileTitle = 'Profil';
   static const String profileEmailLabel = 'Email : ';
@@ -20,14 +44,11 @@ abstract class AppStrings {
   static const String networkError = 'Erreur réseau, veuillez vérifier votre connexion.';
   static const String invalidCredentials = 'Identifiants invalides. Veuillez réessayer.';
   static const String genericError = 'Une erreur s\'est produite.';
+  static const String errorInvalidEmail = 'L\'email est invalide';
+  static const String errorWeakPassword = 'Mot de passe trop faible';
+  static const String errorUserNotFound = 'Utilisateur non trouvé';
+  static const String errorWrongPassword = 'Mot de passe incorrect';
 
-  // Page des services
-  static const String servicesTitle = 'Proposer des services';
-  static const String serviceDescriptionHint = 'Description du service';
-  static const String servicePriceHint = 'Prix estimé';
-  static const String addServiceButton = 'Ajouter un service';
-  static const String serviceListedSuccessfully = 'Service ajouté avec succès';
-  static const String serviceError = 'Une erreur est survenue lors de l\'ajout du service';
   
   // Page des échanges
   static const String serviceExchangeTitle = 'Échange de services';
@@ -59,4 +80,6 @@ abstract class AppStrings {
   static const String feedbackPrompt = 'Laissez votre avis sur ce service';
   static const String submitFeedback = 'Soumettre un avis';
   static const String feedbackThankYou = 'Merci pour votre retour !';
+
+
 }
