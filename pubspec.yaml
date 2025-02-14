@@ -40,6 +40,8 @@ dependencies:
   go_router: ^14.8.0
   smooth_page_indicator: ^1.2.0+3
   flutter_svg: ^2.0.17
+  shared_preferences: ^2.0.15
+  get_it: ^7.6.4
 
 dev_dependencies:
   flutter_test:

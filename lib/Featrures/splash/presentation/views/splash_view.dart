@@ -1,8 +1,11 @@
 import 'package:echange_plus/Featrures/splash/presentation/views/functions/navigation.dart';
+import 'package:echange_plus/core/database/cache/cache_helper.dart';
+import 'package:echange_plus/core/services/service_locator.dart';
 import 'package:echange_plus/core/utils/app_strings.dart';
 import 'package:flutter/material.dart';
 import "package:echange_plus/core/utils/app_text_style.dart";
 import 'package:go_router/go_router.dart';
+
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
 
@@ -11,39 +14,40 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> {
-
   @override
   void initState() {
-    
-    delayedNavigate();
     super.initState();
+
+    bool isOnBoardingVisited =
+        CacheHelper.getData(key: "isOnBoardingVisited") ?? false;
+
+    // Vérifie si l'onboarding a déjà été visité
+    if (isOnBoardingVisited == true) {
+      delayedNavigate("/signUp");  // Navigue vers signUp si déjà visité
+    } else {
+      delayedNavigate("/onboarding");  // Navigue vers onboarding si pas visité
+    }
   }
 
-  void delayedNavigate() {
-
-    // delayed Nvigate
-     Future.delayed(
+  void delayedNavigate(String path) {
+    Future.delayed(
       const Duration(seconds: 2),
-      (){
-        // ignore: use_build_context_synchronously
-        context.go("/onboarding");
-        //customNavigate(context,"/onboarding");
+      () {
+        if (mounted) { // Vérifie si le widget est toujours dans l'arbre
+          context.go(path);  // Utilise le bon chemin
+        }
       },
     );
-    //
-    
-
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child:Text(
-        AppStrings.appTitle,
-        style: CustomTextStyles.Pcifico400style64,
-        ) ,
+        child: Text(
+          AppStrings.appTitle,
+          style: CustomTextStyles.Pcifico400style64,
+        ),
       ),
     );
   }
