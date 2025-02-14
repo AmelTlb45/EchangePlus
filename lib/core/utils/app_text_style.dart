@@ -12,9 +12,10 @@ abstract class CustomTextStyles {
   
  static final Open500style24 = TextStyle (
       fontSize: 24 ,
-      fontWeight: FontWeight.w300,
-      color: const Color.fromARGB(255, 9, 8, 8),
-      fontFamily: "OpenSans", // Utilisation de la couleur rouge
+      fontWeight: FontWeight.bold,
+      color: const Color.fromARGB(255, 251, 249, 249),
+      fontFamily: "OpenSans",
+      // Utilisation de la couleur rouge
     );
   
 }

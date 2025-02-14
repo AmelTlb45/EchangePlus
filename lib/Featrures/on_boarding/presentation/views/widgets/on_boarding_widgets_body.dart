@@ -1,12 +1,14 @@
 import 'package:echange_plus/Featrures/on_boarding/presentation/views/widgets/custom_smooth_page_controller.dart';
 import 'package:echange_plus/core/utils/app_assets.dart';
+import 'package:echange_plus/core/utils/app_strings.dart';
 import 'package:echange_plus/core/utils/app_text_style.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
-import 'package:flutter_svg/flutter_svg.dart'; // Pour les icônes SVG
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart'; // Pour les icônes SVG
 
 class OnBoardingWidgetBody extends StatefulWidget {
-  const OnBoardingWidgetBody({super.key});
+  const OnBoardingWidgetBody({super.key, required PageController controller});
 
   @override
   _OnBoardingWidgetBodyState createState() => _OnBoardingWidgetBodyState();
@@ -65,7 +67,7 @@ class _OnBoardingWidgetBodyState extends State<OnBoardingWidgetBody> {
                 screenWidth,
                 images[index],
                 quotes[index],
-                smallTexts[index],  // Passer le petit texte ici
+                smallTexts[index], // Passer le petit texte ici
               );
             },
             onPageChanged: _onPageChanged,
@@ -81,8 +83,8 @@ class _OnBoardingWidgetBodyState extends State<OnBoardingWidgetBody> {
     );
   }
 
-  Widget _buildOnboardingPage(
-      BuildContext context, double screenWidth, String image, String quote, String smallText) {
+  Widget _buildOnboardingPage(BuildContext context, double screenWidth,
+      String image, String quote, String smallText) {
     return SingleChildScrollView(
       // Permet le défilement vertical dans chaque page
       scrollDirection: Axis.vertical, // Défilement vertical
@@ -94,7 +96,8 @@ class _OnBoardingWidgetBodyState extends State<OnBoardingWidgetBody> {
           const SizedBox(height: 20),
           _buildTextSection(screenWidth, quote),
           const SizedBox(height: 10),
-          _buildSmallTextSection(screenWidth, smallText),  // Ajouter le petit texte ici
+          _buildSmallTextSection(
+              screenWidth, smallText), // Ajouter le petit texte ici
         ],
       ),
     );
@@ -172,68 +175,143 @@ class _OnBoardingWidgetBodyState extends State<OnBoardingWidgetBody> {
       bottom: 20,
       left: screenWidth * 0.1,
       right: screenWidth * 0.1,
-      child: GestureDetector(
-        onTap: _currentIndex == 2
-            ? () {
-                // Rediriger l'utilisateur vers la page principale
-                Navigator.pushNamed(context, '/home');
-              }
-            : () {
+      child: _currentIndex == 2
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Bouton SignIn
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      context
+                          .go("/signIn"); // Redirige vers la page de connexion
+                    },
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      height: 55,
+                      margin: const EdgeInsets.only(right: 10),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Color.fromARGB(255, 255, 153, 51),
+                            Color.fromARGB(255, 243, 177, 33),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(30),
+                        boxShadow: [
+                          BoxShadow(
+                            // ignore: deprecated_member_use
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 10,
+                            offset: Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: Text(
+                          AppStrings.signIn, // Texte pour le bouton SignIn
+                          style: CustomTextStyles.Open500style24.copyWith(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                // Bouton SignUp
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      context
+                          .go("/signUp"); // Redirige vers la page d'inscription
+                    },
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      height: 55,
+                      margin: const EdgeInsets.only(left: 10),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Color.fromARGB(255, 243, 177, 33),
+                            Color.fromARGB(255, 255, 153, 51),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(30),
+                        boxShadow: [
+                          BoxShadow(
+                            // ignore: deprecated_member_use
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 10,
+                            offset: Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: Text(
+                          AppStrings.signUp, // Texte pour le bouton SignUp
+                          style: CustomTextStyles.Open500style24.copyWith(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )
+          : GestureDetector(
+              onTap: () {
                 _controller.nextPage(
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
                 );
               },
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          height: 55,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color.fromARGB(255, 255, 153, 51),
-                Color.fromARGB(255, 243, 177, 33),
-              ],
-            ),
-            borderRadius: BorderRadius.circular(30),
-            boxShadow: [
-              BoxShadow(
-                // ignore: deprecated_member_use
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 10,
-                offset: Offset(0, 4),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                height: 55,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromARGB(255, 255, 153, 51),
+                      Color.fromARGB(255, 243, 177, 33),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(30),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 10,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (_currentIndex != 2)
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: SvgPicture.asset(
+                            'assets/icons/arrow_right.svg',
+                            color: Colors.white,
+                            width: 20,
+                            height: 20,
+                          ),
+                        ),
+                      Center(
+                        child: Text(
+                          "Suivant",
+                          style: CustomTextStyles.Open500style24.copyWith(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ],
-          ),
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (_currentIndex != 2)
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: SvgPicture.asset(
-                      'assets/icons/arrow_right.svg',
-                      // ignore: deprecated_member_use
-                      color: Colors.white,
-                      width: 20,
-                      height: 20,
-                    ),
-                  ),
-                Center(
-                  child: Text(
-                    _currentIndex == 2 ? "Commencer" : "Suivant",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                )
-              ],
             ),
-          ),
-        ),
-      ),
     );
   }
 }

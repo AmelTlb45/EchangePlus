@@ -1,51 +1,51 @@
 import 'package:echange_plus/Featrures/on_boarding/presentation/views/widgets/on_boarding_widgets_body.dart';
 import 'package:echange_plus/core/utils/app_strings.dart';
 import 'package:flutter/material.dart';
-
-class OnBoardingView extends StatelessWidget {
+import 'package:go_router/go_router.dart';
+class OnBoardingView extends StatefulWidget {
   const OnBoardingView({super.key});
 
   @override
+  State<OnBoardingView> createState() => _OnBoardingViewState();
+}
+
+class _OnBoardingViewState extends State<OnBoardingView> {
+final PageController _controller = PageController(initialPage: 0);
+
+  
+  @override
   Widget build(BuildContext context) {
-    return 
-    SafeArea(
+    return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         body: Stack(
           children: [
-            Column(
+            PageView(
+              controller: _controller,
               children: [
-                // Ajoutez ici les autres éléments dans le corps de la page
-                OnBoardingWidgetBody(),
+                OnBoardingWidgetBody(
+                  controller: _controller,
+                  // Add more widgets here as per your onboarding content
+                ),
+                // More onboarding pages can be added here as needed
               ],
             ),
-            // Placer le bouton Skip en haut à droite
+            // Skip button at the top right
             Positioned(
-              top: 16.0, // Distance du haut
-              right: 16.0, // Distance de la droite
+              top: 16.0,
+              right: 16.0,
               child: ElevatedButton(
                 onPressed: () {
-                  // Action lorsque le bouton est pressé
-                  Navigator.pushReplacementNamed(context, '/home'); // Ex: Aller à la page d'accueil
+                   context.go("/signUp");
+                          
                 },
-                style: ButtonStyle(
-                  padding: WidgetStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(horizontal: 20, vertical: 10)),
-                  backgroundColor: WidgetStateProperty.all<Color>(Colors.transparent), // Arrière-plan transparent
-                  elevation: WidgetStateProperty.all(0), // Pas d'ombre
-                  side: WidgetStateProperty.all<BorderSide>(BorderSide(color: Colors.black)), // Bordure noire
-                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30), // Coins arrondis
-                    ),
-                  ),
-                ),
-                child:
-                 Text(
+                
+                child: Text(
                   AppStrings.skip,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w300,
-                    color: Colors.black, // Couleur du texte
+                    color: Colors.black,
                   ),
                 ),
               ),
