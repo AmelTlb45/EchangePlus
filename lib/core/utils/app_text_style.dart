@@ -9,6 +9,12 @@ abstract class CustomTextStyles {
       color: AppColors.redColor,
       fontFamily: "Pcifico", // Utilisation de la couleur rouge
     );
+    static final Pcifico400style50 = TextStyle (
+      fontSize: 50 ,
+      fontWeight: FontWeight.w400,
+      color:  const Color.fromARGB(255, 0, 0, 0),
+      fontFamily: "Pcifico", // Utilisation de la couleur rouge
+    );
   
  static final Open500style24 = TextStyle (
       fontSize: 24 ,
@@ -17,5 +23,21 @@ abstract class CustomTextStyles {
       fontFamily: "OpenSans",
       // Utilisation de la couleur rouge
     );
-  
+  static final Open500style12 = TextStyle (
+      fontSize: 12 ,
+      fontWeight: FontWeight.bold,
+      color: const Color.fromARGB(255, 106, 106, 106),
+      fontFamily: "OpenSans",
+      // Utilisation de la couleur rouge
+    );
+
+    
+    static final Open500style16 = TextStyle (
+      fontSize: 16 ,
+      fontWeight: FontWeight.bold,
+      color: const Color.fromARGB(255, 255, 255, 255),
+      fontFamily: "OpenSans",
+      // Utilisation de la couleur rouge
+    );
+
 }

@@ -1,3 +1,4 @@
+import 'package:echange_plus/Featrures/on_boarding/presentation/views/functions/on_boarding.dart';
 import 'package:echange_plus/Featrures/on_boarding/presentation/views/widgets/on_boarding_widgets_body.dart';
 import 'package:echange_plus/core/utils/app_strings.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,7 @@ final PageController _controller = PageController(initialPage: 0);
               right: 16.0,
               child: ElevatedButton(
                 onPressed: () {
+                  OnBoardingVisited();
                    context.go("/signUp");
                           
                 },

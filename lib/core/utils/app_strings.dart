@@ -1,11 +1,12 @@
 abstract class AppStrings {
 
   // Ecran de Splash
+  static const String b = 'Bienvenue!';
   static const String splashTitle = 'Bienvenue sur EchangePlus';
   static const String splashSubtitle = 'L\'application d\'échange de services';
 
   // Page d'authentification
-  static const String signIn = 'Se connecter';
+  static const String signIn = ' Se connecter';
   static const String signUp = 'S\'inscrire';
   static const String emailHint = 'Entrez votre email';
   static const String passwordHint = 'Entrez votre mot de passe';

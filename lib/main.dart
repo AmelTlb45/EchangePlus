@@ -10,7 +10,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupServiceLocator();
   await CacheHelper.init();
-  
   runApp(const MyWidget());
 }
 //change 1
