@@ -39,5 +39,12 @@ abstract class CustomTextStyles {
       fontFamily: "OpenSans",
       // Utilisation de la couleur rouge
     );
+    static final Open500style20 = TextStyle (
+      fontSize: 20 ,
+      fontWeight: FontWeight.bold,
+      color: const Color.fromARGB(255, 255, 255, 255),
+      fontFamily: "OpenSans",
+      // Utilisation de la couleur rouge
+    );
 
 }

@@ -1,13 +1,14 @@
-// Définir les états d'authentification
 abstract class AuthState {}
 
-class AuthInitial extends AuthState {}  // État initial (avant que l'utilisateur ne se connecte ou s'inscrive)
+class AuthInitial extends AuthState {}
 
-class AuthLoading extends AuthState {}  // L'authentification ou l'inscription est en cours
+class SingupLoadingState extends AuthState {}
 
-class AuthSuccess extends AuthState {}  // L'authentification ou l'inscription est réussie
+class SignupSuccessState extends AuthState {}
 
-class AuthFailure extends AuthState {
-  final String errorMessage;  // Message d'erreur en cas de problème
-  AuthFailure(this.errorMessage);
+class SingupFailerSFailure extends AuthState {
+  final String errorMessage;
+
+  SingupFailerSFailure({required this.errorMessage});
 }
+class TermsAndConditionsUpdateState extends AuthState {}

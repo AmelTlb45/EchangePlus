@@ -1,3 +1,4 @@
+import 'package:echange_plus/Featrures/auth/presentation/widgets/custome_check_box.dart';
 import 'package:flutter/material.dart';
 import 'package:echange_plus/core/utils/app_text_style.dart';
 
@@ -32,7 +33,6 @@ class TermsAndConditionsWidget extends StatelessWidget {
 
   // Navigate to terms and conditions page or display them in a dialog
   void _openTermsAndConditions(BuildContext context) {
-    // This can be replaced with actual navigation or dialog for terms and conditions
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -50,31 +50,5 @@ class TermsAndConditionsWidget extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class CustomCheckbox extends StatefulWidget {
-  const CustomCheckbox({super.key});
-
-  @override
-  _CustomCheckboxState createState() => _CustomCheckboxState();
-}
-
-class _CustomCheckboxState extends State<CustomCheckbox> {
-  bool _isChecked = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Checkbox(
-      value: _isChecked,
-      onChanged: _onCheckboxChanged,
-    );
-  }
-
-  // Handle checkbox state change
-  void _onCheckboxChanged(bool? value) {
-    setState(() {
-      _isChecked = value ?? false;
-    });
   }
 }

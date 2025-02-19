@@ -81,6 +81,11 @@ abstract class AppStrings {
   static const String feedbackPrompt = 'Laissez votre avis sur ce service';
   static const String submitFeedback = 'Soumettre un avis';
   static const String feedbackThankYou = 'Merci pour votre retour !';
+  
 
-
+  static const String firstName = 'Prenom'; 
+  static const String lastName = 'Nom';
+  static const String emailAddress = 'E-mail';
+  static const String password = 'Mot de passe';
+   
 }

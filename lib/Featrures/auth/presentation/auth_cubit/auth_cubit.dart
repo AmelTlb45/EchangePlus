@@ -1,36 +1,93 @@
+import 'package:echange_plus/Featrures/auth/presentation/widgets/terms_and_condition.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'auth_state.dart';
 
-// Définir les événements possibles de l'authentification
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit() : super(AuthInitial());  // L'état initial est AuthInitial
+  AuthCubit() : super(AuthInitial());
 
-  // Méthode pour démarrer le processus de connexion
-  void signIn(String email, String password) {
-    emit(AuthLoading());  // Changer l'état en AuthLoading pendant le traitement
+  String? firstName;
+  String? lastName;
+  String? emailAddress;
+  String? password;
+  bool? termsAndConditionCheckBoxValue = false;
+  GlobalKey<FormState> signupFromKey = GlobalKey();
+  void updateFirstName(String firstName) {
+    this.firstName = firstName;
+    print("Updated firstName: $firstName"); // Vérification
+    emit(AuthInitial());
+  }
 
-    // Simuler une logique d'authentification (remplace par ta logique réelle)
-    Future.delayed(Duration(seconds: 2), () {
-      if (email == "user@example.com" && password == "password") {
-        emit(AuthSuccess());  // L'authentification réussie
-      } else {
-        emit(AuthFailure("Email ou mot de passe incorrect"));  // Erreur d'authentification
+  void updateLastName(String lastName) {
+    this.lastName = lastName;
+    print("Updated lastName: $lastName"); // Vérification
+    emit(AuthInitial());
+  }
+
+  void updateEmail(String emailAddress) {
+    this.emailAddress = emailAddress;
+    print("Updated emailAddress: $emailAddress"); // Vérification
+    emit(AuthInitial());
+  }
+
+  void updatePassword(String password) {
+    this.password = password;
+    print("Updated password: $password"); // Vérification
+    emit(AuthInitial());
+  }
+
+  bool validateFields() {
+    if (firstName == null || firstName!.isEmpty) {
+      emit(SingupFailerSFailure(errorMessage: "Le prénom est requis"));
+      return false;
+    }
+    if (lastName == null || lastName!.isEmpty) {
+      emit(SingupFailerSFailure(errorMessage: "Le nom est requis"));
+      return false;
+    }
+    if (emailAddress == null ||
+        emailAddress!.isEmpty ||
+        !RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$")
+            .hasMatch(emailAddress!)) {
+      emit(SingupFailerSFailure(errorMessage: "Email invalide"));
+      return false;
+    }
+    if (password == null || password!.isEmpty || password!.length < 8) {
+      emit(SingupFailerSFailure(
+          errorMessage: "Le mot de passe doit contenir au moins 8 caractères"));
+      return false;
+    }
+
+    return true; // Si tous les champs sont valides
+  }
+
+  // Inscription avec validation préalable
+  Future<void> SignUpWithEmailAndPassword() async {
+    if (validateFields()) {
+      // Si la validation est réussie
+      try {
+        emit(SingupLoadingState());
+
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailAddress!,
+          password: password!,
+        );
+
+        emit(SignupSuccessState());
+      } on FirebaseAuthException catch (e) {
+        emit(
+            SingupFailerSFailure(errorMessage: e.message ?? "Erreur inconnue"));
+      } catch (e) {
+        emit(SingupFailerSFailure(errorMessage: e.toString()));
       }
-    });
+    }
   }
 
-  // Méthode pour démarrer le processus d'inscription
-  void signUp(String email, String password) {
-    emit(AuthLoading());
-
-    // Simuler le processus d'inscription
-    Future.delayed(Duration(seconds: 2), () {
-      emit(AuthSuccess());  // Inscription réussie
-    });
-  }
-
-  // Méthode pour déconnecter l'utilisateur
-  void signOut() {
-    emit(AuthInitial());  // Réinitialiser l'état à l'état initial
+  void UpdateTermsAndConditionCheckBox({required bool? newValue}) {
+    termsAndConditionCheckBoxValue =
+        newValue; // Met à jour la valeur dans le Cubit
+    emit(
+        TermsAndConditionsUpdateState()); // Émet un nouvel état pour notifier la modification
   }
 }
