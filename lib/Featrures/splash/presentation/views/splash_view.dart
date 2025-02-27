@@ -1,7 +1,7 @@
-import 'package:echange_plus/Featrures/splash/presentation/views/functions/navigation.dart';
 import 'package:echange_plus/core/database/cache/cache_helper.dart';
-import 'package:echange_plus/core/services/service_locator.dart';
-import 'package:echange_plus/core/utils/app_strings.dart';
+ import 'package:echange_plus/core/utils/app_strings.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import "package:echange_plus/core/utils/app_text_style.dart";
 import 'package:go_router/go_router.dart';
@@ -23,7 +23,10 @@ class _SplashViewState extends State<SplashView> {
 
     // Vérifie si l'onboarding a déjà été visité
     if (isOnBoardingVisited == true) {
-      delayedNavigate("/signUp");  // Navigue vers signUp si déjà visité
+      FirebaseAuth.instance.currentUser == null 
+      ?  delayedNavigate("/signUp")
+      :  delayedNavigate("/home"); 
+       // Navigue vers signUp si déjà visité
     } else {
       delayedNavigate("/onboarding");  // Navigue vers onboarding si pas visité
     }

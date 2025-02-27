@@ -1,6 +1,5 @@
 import 'package:echange_plus/Featrures/on_boarding/presentation/views/functions/on_boarding.dart';
 import 'package:echange_plus/Featrures/on_boarding/presentation/views/widgets/custom_smooth_page_controller.dart';
-import 'package:echange_plus/core/database/cache/cache_helper.dart';
 import 'package:echange_plus/core/utils/app_assets.dart';
 import 'package:echange_plus/core/utils/app_strings.dart';
 import 'package:echange_plus/core/utils/app_text_style.dart';

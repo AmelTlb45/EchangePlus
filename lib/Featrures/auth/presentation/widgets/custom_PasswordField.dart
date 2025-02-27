@@ -13,7 +13,7 @@ class PasswordField extends StatefulWidget {
 
 class _PasswordFieldState extends State<PasswordField> {
   bool _obscureText = true;
-  String _password = ""; // Variable pour stocker le mot de passe
+// Variable pour stocker le mot de passe
 
   String? _passwordValidator(String? value) {
     if (value == null || value.isEmpty) {
@@ -48,7 +48,7 @@ class _PasswordFieldState extends State<PasswordField> {
       obscureText: _obscureText,
       onChanged: (value) {
         setState(() {
-          _password = value; // Met à jour le mot de passe local
+// Met à jour le mot de passe local
         });
         widget.onChanged(value); // Appelle la fonction onChanged pour mettre à jour le mot de passe
       },

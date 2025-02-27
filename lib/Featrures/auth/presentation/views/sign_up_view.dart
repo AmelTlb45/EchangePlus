@@ -3,6 +3,7 @@ import 'package:echange_plus/Featrures/auth/presentation/widgets/custume_jai_un_
 import 'package:echange_plus/Featrures/auth/presentation/widgets/welcome_text_widget.dart';
 import 'package:echange_plus/core/utils/app_strings.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class SignUpView extends StatelessWidget {
   const SignUpView({super.key});
@@ -30,6 +31,9 @@ class SignUpView extends StatelessWidget {
                 HaveAnAccountWidget(
                   text1: "J'ai déjà un compte ",
                   text2: AppStrings.signIn,
+                 onTab: (){
+                  context.go("/signIn");
+                 },
                 ),
                 SizedBox(
                     height:

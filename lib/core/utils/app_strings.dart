@@ -1,6 +1,7 @@
 abstract class AppStrings {
 
   // Ecran de Splash
+  static const String Role = 'Role';
   static const String b = 'Bienvenue!';
   static const String splashTitle = 'Bienvenue sur EchangePlus';
   static const String splashSubtitle = 'L\'application d\'échange de services';

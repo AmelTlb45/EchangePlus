@@ -4,7 +4,7 @@ import 'package:echange_plus/core/functions/check_state_change.dart';
 import 'package:echange_plus/core/services/service_locator.dart';
 import 'package:echange_plus/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 //import 'package:firebase_core/firebase_core.dart';
 
