@@ -31,9 +31,9 @@ class SignUpView extends StatelessWidget {
                 HaveAnAccountWidget(
                   text1: "J'ai déjà un compte ",
                   text2: AppStrings.signIn,
-                 onTab: (){
-                  context.go("/signIn");
-                 },
+                  onTab: () {
+                    context.go("/signIn");
+                  },
                 ),
                 SizedBox(
                     height:
@@ -46,4 +46,3 @@ class SignUpView extends StatelessWidget {
     );
   }
 }
-

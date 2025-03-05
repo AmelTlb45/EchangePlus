@@ -3,9 +3,16 @@ import 'package:flutter/material.dart';
 
 class PasswordField extends StatefulWidget {
   final String labelText;
-  final Function(String) onChanged; // Fonction de mise à jour de la valeur du mot de passe
+  final Function(String)
+      onChanged; // Fonction de mise à jour de la valeur du mot de passe
+  final String initialValue;
 
-  const PasswordField({super.key, required this.labelText, required this.onChanged, required String initialValue});
+  const PasswordField({
+    super.key,
+    required this.labelText,
+    required this.onChanged,
+    required this.initialValue,
+  });
 
   @override
   State<PasswordField> createState() => _PasswordFieldState();
@@ -13,62 +20,65 @@ class PasswordField extends StatefulWidget {
 
 class _PasswordFieldState extends State<PasswordField> {
   bool _obscureText = true;
-// Variable pour stocker le mot de passe
 
+  // Fonction de validation pour le mot de passe
   String? _passwordValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Le mot de passe ne peut pas être vide';
     }
-    // Validation de la longueur du mot de passe
     if (value.length < 8) {
       return 'Le mot de passe doit contenir au moins 8 caractères';
     }
-    // Validation pour un caractère spécial
     if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
       return 'Le mot de passe doit contenir au moins un caractère spécial';
     }
-    // Validation pour un chiffre
     if (!RegExp(r'[0-9]').hasMatch(value)) {
       return 'Le mot de passe doit contenir au moins un chiffre';
     }
-    // Validation pour une lettre majuscule
     if (!RegExp(r'[A-Z]').hasMatch(value)) {
       return 'Le mot de passe doit contenir au moins une lettre majuscule';
     }
-    // Validation pour une lettre minuscule
     if (!RegExp(r'[a-z]').hasMatch(value)) {
       return 'Le mot de passe doit contenir au moins une lettre minuscule';
     }
-    return null; // Le mot de passe est valide
+    return null; // Mot de passe valide
   }
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      validator:_passwordValidator,
-      obscureText: _obscureText,
+      initialValue:
+          widget.initialValue, // Initialisation avec la valeur du mot de passe
+      validator: _passwordValidator, // Validation du mot de passe
+      obscureText: _obscureText, // Masquer ou afficher le mot de passe
       onChanged: (value) {
-        setState(() {
-// Met à jour le mot de passe local
-        });
-        widget.onChanged(value); // Appelle la fonction onChanged pour mettre à jour le mot de passe
+        widget.onChanged(value); // Appel de la fonction onChanged
       },
       decoration: InputDecoration(
         labelStyle: CustomTextStyles.Open500style12,
-        labelText: widget.labelText,
-        border: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey),
+        labelText: widget.labelText, // Texte du label
+        border: OutlineInputBorder(
+          borderRadius:
+              BorderRadius.circular(12), // Coins arrondis comme le champ Email
+          borderSide: BorderSide(color: Colors.grey), // Bordure grise légère
         ),
-        enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12), // Coins arrondis
+          borderSide: BorderSide(color: Colors.grey), // Bordure grise
         ),
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12), // Coins arrondis
+          borderSide: BorderSide(
+              color: Colors.grey), // Bordure grise quand le champ est focus
         ),
         suffixIcon: IconButton(
-          icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+          icon: Icon(_obscureText
+              ? Icons.visibility
+              : Icons.visibility_off), // Affiche ou cache l'icône
           onPressed: () {
             setState(() {
-              _obscureText = !_obscureText;
+              _obscureText =
+                  !_obscureText; // Bascule l'état d'affichage du mot de passe
             });
           },
         ),

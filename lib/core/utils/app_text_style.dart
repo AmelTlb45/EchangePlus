@@ -9,6 +9,12 @@ abstract class CustomTextStyles {
       color: AppColors.redColor,
       fontFamily: "Pcifico", // Utilisation de la couleur rouge
     );
+    static final Pcifico400style42 = TextStyle (
+      fontSize: 42 ,
+      fontWeight: FontWeight.w400,
+      color: AppColors.redColor,
+      fontFamily: "Pcifico", // Utilisation de la couleur rouge
+    );
     static final Pcifico400style50 = TextStyle (
       fontSize: 50 ,
       fontWeight: FontWeight.w400,

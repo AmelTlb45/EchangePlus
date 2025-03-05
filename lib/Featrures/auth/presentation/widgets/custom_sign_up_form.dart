@@ -22,21 +22,16 @@ class _CustomSignUpFormState extends State<CustomSignUpForm> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state is SingupLoadingState) {
+        if (state is SignInLoadingState) {
           // Afficher un indicateur de chargement si nécessaire
         } else if (state is SignupSuccessState) {
           // Récupère l'objet user de l'état
           var user = state.user; // C'est un seul objet, pas une liste
 
-          showToast("User is successfully signed in!");
-          print("User Name: ${user.name}"); // Affiche le nom de l'utilisateur
-          print(
-              "User Email: ${user.email}"); // Affiche l'email de l'utilisateur
+          showToast("Utilisateur est bien créer!");
 
-          // Naviguer vers la page de connexion après un délai
-          
-            context.go("/home"); // Utiliser la navigation de go_router pour rediriger
-          
+          context.go(
+              "/home"); // Utiliser la navigation de go_router pour rediriger
         } else if (state is SingupFailerSFailure) {
           showToast(
               state.errorMessage); // Afficher l'erreur si l'inscription échoue
@@ -64,8 +59,9 @@ class _CustomSignUpFormState extends State<CustomSignUpForm> {
                   authCubit.updateLastName(value);
                 },
                 initialValue: context.read<AuthCubit>().lastName ?? '',
-              ),SizedBox(height: 40),
-              ////////// ajouter field de role 
+              ),
+              SizedBox(height: 40),
+              ////////// ajouter field de role
               //SizedBox(height: 40),
               CustomTextFormField(
                 labelText: AppStrings.emailAddress,
@@ -75,6 +71,8 @@ class _CustomSignUpFormState extends State<CustomSignUpForm> {
                 },
                 initialValue: context.read<AuthCubit>().emailAddress ?? '',
               ),
+
+
               SizedBox(height: 40),
               PasswordField(
                 labelText: AppStrings.password,
@@ -139,7 +137,7 @@ class PigeonUserDetails {
   // Le constructeur pour initialiser les données de l'utilisateur
   PigeonUserDetails({
     required this.name,
-    required this.email,
+    required this.email, required String role,
   });
 
   // Méthode pour afficher les informations de l'utilisateur

@@ -34,7 +34,7 @@ class HaveAnAccountWidget extends StatelessWidget {
               recognizer: TapGestureRecognizer()
                 ..onTap = () { 
                   context.go(
-                "/signIn");
+                "/signUp");
                   // Handle navigation to sign-in screen
                   print("Navigate to Sign In screen");
                 },

@@ -13,7 +13,16 @@ class AuthCubit extends Cubit<AuthState> {
   String? emailAddress;
   String? password;
   bool? termsAndConditionCheckBoxValue = false;
+  String? selectedRole = "user"; // Ajouter la variable pour le rôle sélectionné
+
   GlobalKey<FormState> signupFromKey = GlobalKey();
+  GlobalKey<FormState> signinFromKey = GlobalKey();
+
+  void updateRole(String? role) {
+    selectedRole = role;
+    print("Updated role: $selectedRole");
+    emit(AuthInitial());
+  }
 
   // Mettre à jour le prénom
   void updateFirstName(String firstName) {
@@ -86,11 +95,13 @@ class AuthCubit extends Cubit<AuthState> {
         PigeonUserDetails user = PigeonUserDetails(
           name: userCredential.user?.displayName ?? 'No Name',
           email: userCredential.user?.email ?? 'No Email',
+          role: selectedRole ?? 'user',
         );
 
         // Ajouter le rôle après l'inscription, ici on peut choisir 'user' comme rôle par défaut
+        // Ajouter le rôle après l'inscription
         await setUserRole(
-            'user'); // Ou 'admin' si tu veux attribuer un rôle admin
+            selectedRole!); // Utiliser le rôle sélectionné // Ou 'admin' si tu veux attribuer un rôle admin
 
         // Émettre un état de succès avec l'objet PigeonUserDetails
         emit(SignupSuccessState(user)); // Passe l'objet PigeonUserDetails
@@ -103,6 +114,33 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+ 
+
+
+  Future<void> signInWithEmailAndPassword() async {
+    try {
+      emit(SignInLoadingState());
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailAddress!,
+        password: password!,
+      );
+      emit(SignInSuccessState());
+    } on FirebaseAuthException catch (e) {
+      emit(SingInFailerSFailure(errorMessage: ''));
+      // Gérer les erreurs spécifiques à Firebase Authentication
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      } else {
+        print("Error: ${e.message}");
+      }
+    } catch (e) {
+      // Gérer les autres erreurs
+      print("An error occurred: $e");
+    }
+  }
+
   // Mettre à jour le rôle de l'utilisateur dans Firestore
   Future<void> setUserRole(String role) async {
     User? user = FirebaseAuth.instance.currentUser;
@@ -110,6 +148,8 @@ class AuthCubit extends Cubit<AuthState> {
       // Ajouter un document dans la collection 'users' avec un champ 'role'
       await FirebaseFirestore.instance.collection('users').doc(user.uid).set(
         {
+          'name': user.displayName ?? 'No Name', // Nom de l'utilisateur
+          'email': user.email ?? 'No Email',
           'role': role, // Enregistrer le rôle
         },
         SetOptions(
