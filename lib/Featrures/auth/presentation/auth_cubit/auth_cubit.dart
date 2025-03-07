@@ -126,7 +126,7 @@ class AuthCubit extends Cubit<AuthState> {
       );
       emit(SignInSuccessState());
     } on FirebaseAuthException catch (e) {
-      emit(SingInFailerSFailure(errorMessage: ''));
+      emit(SingInFailerSFailure(errorMessage: 'V érifier ton email et votre mot de passe !'));
       // Gérer les erreurs spécifiques à Firebase Authentication
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
