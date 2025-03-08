@@ -1,3 +1,4 @@
+import 'package:echange_plus/Featrures/auth/presentation/auth_cubit/auth_service.dart';
 import 'package:echange_plus/Featrures/auth/presentation/widgets/custom_sign_up_form.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
@@ -17,7 +18,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   GlobalKey<FormState> signupFromKey = GlobalKey();
   GlobalKey<FormState> signinFromKey = GlobalKey();
-
+ GlobalKey<FormState> forgotPasswordFromKey = GlobalKey();
   void updateRole(String? role) {
     selectedRole = role;
     print("Updated role: $selectedRole");
@@ -90,20 +91,19 @@ class AuthCubit extends Cubit<AuthState> {
           email: emailAddress!,
           password: password!,
         );
-
+        verifyEmail();
         // Crée un objet PigeonUserDetails à partir de userCredential
         PigeonUserDetails user = PigeonUserDetails(
           name: userCredential.user?.displayName ?? 'No Name',
           email: userCredential.user?.email ?? 'No Email',
           role: selectedRole ?? 'user',
         );
-
+       
         // Ajouter le rôle après l'inscription, ici on peut choisir 'user' comme rôle par défaut
         // Ajouter le rôle après l'inscription
         await setUserRole(
             selectedRole!); // Utiliser le rôle sélectionné // Ou 'admin' si tu veux attribuer un rôle admin
-
-        // Émettre un état de succès avec l'objet PigeonUserDetails
+       
         emit(SignupSuccessState(user)); // Passe l'objet PigeonUserDetails
       } on FirebaseAuthException catch (e) {
         emit(
@@ -114,9 +114,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
- 
-
-
   Future<void> signInWithEmailAndPassword() async {
     try {
       emit(SignInLoadingState());
@@ -126,12 +123,15 @@ class AuthCubit extends Cubit<AuthState> {
       );
       emit(SignInSuccessState());
     } on FirebaseAuthException catch (e) {
-      emit(SingInFailerSFailure(errorMessage: 'V érifier ton email et votre mot de passe !'));
+      emit(SingInFailerSFailure(
+          errorMessage: 'Vérifier ton email et votre mot de passe !'));
       // Gérer les erreurs spécifiques à Firebase Authentication
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided for that user.');
+      } else if (e.code == 'invalid-email') {
+        print('the email is invalid.');
       } else {
         print("Error: ${e.message}");
       }
@@ -141,6 +141,10 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+   verifyEmail() async {
+    await FirebaseAuth.instance.currentUser!.sendEmailVerification();
+  }
+
   // Mettre à jour le rôle de l'utilisateur dans Firestore
   Future<void> setUserRole(String role) async {
     User? user = FirebaseAuth.instance.currentUser;
@@ -148,7 +152,7 @@ class AuthCubit extends Cubit<AuthState> {
       // Ajouter un document dans la collection 'users' avec un champ 'role'
       await FirebaseFirestore.instance.collection('users').doc(user.uid).set(
         {
-          'name': user.displayName ?? 'No Name', // Nom de l'utilisateur
+          'name': "$firstName $lastName", // Nom de l'utilisateur
           'email': user.email ?? 'No Email',
           'role': role, // Enregistrer le rôle
         },
@@ -159,27 +163,46 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<String> getUserRole() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      // Récupérer le rôle de l'utilisateur depuis Firestore
+ Future<String> getUserRole() async {
+   User? user = FirebaseAuth.instance.currentUser;
+   if (user == null) return 'user'; // Utilisateur non connecté
+   try {
       DocumentSnapshot userDoc = await FirebaseFirestore.instance
           .collection('users')
           .doc(user.uid)
           .get();
-      if (userDoc.exists) {
-        return userDoc['role'] ??
-            'user'; // Retourner 'user' si aucun rôle n'est défini
-      }
-    }
-    return 'user'; // Valeur par défaut si l'utilisateur n'est pas authentifié ou si aucun rôle n'est défini
-  }
+      return userDoc.exists ? (userDoc['role'] ?? 'user') : 'user';
+   } catch (e) {
+      print("Erreur lors de la récupération du rôle : $e");
+      return 'user'; // Valeur par défaut en cas d'erreur
+   }
+}
 
   // Mettre à jour la case des termes et conditions
+  // ignore: non_constant_identifier_names
   void UpdateTermsAndConditionCheckBox({required bool? newValue}) {
     termsAndConditionCheckBoxValue =
         newValue; // Met à jour la valeur dans le Cubit
     emit(
         TermsAndConditionsUpdateState()); // Émet un nouvel état pour notifier la modification
   }
+
+  
+
+
+   // ignore: non_constant_identifier_names
+   Future<void> ResetPasswordWithLink() async {
+    try {
+
+   emit(ResetPasswordLoadingState());
+     await FirebaseAuth.instance.sendPasswordResetEmail(email: emailAddress!);
+     emit(ResetPasswordSuccessState());
+    } catch (e) {
+      emit(ResetPasswordFailerSFailure(errorMessage: e.toString()));
+     
+    }
+  }
+
+  
+
 }

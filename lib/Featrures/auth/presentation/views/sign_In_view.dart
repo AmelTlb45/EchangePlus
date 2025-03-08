@@ -1,7 +1,4 @@
 import 'package:echange_plus/Featrures/auth/presentation/widgets/custom_sign_in.dart';
-import 'package:echange_plus/Featrures/auth/presentation/widgets/custume_jai_un_compte.dart';
-import 'package:echange_plus/core/utils/app_colors.dart';
-import 'package:echange_plus/core/utils/app_strings.dart';
 import 'package:echange_plus/core/utils/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

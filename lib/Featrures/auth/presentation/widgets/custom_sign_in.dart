@@ -7,6 +7,7 @@ import 'package:echange_plus/core/functions/custom_toast.dart';
 import 'package:echange_plus/core/utils/app_colors.dart';
 import 'package:echange_plus/core/utils/app_strings.dart';
 import 'package:echange_plus/core/utils/app_text_style.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -26,8 +27,10 @@ class _CustomSignInFormState extends State<CustomSignInForm> {
           // Afficher un indicateur de chargement si nécessaire
         } else if (state is SignInSuccessState) {
           showToast("Bonjour encore !!!");
-          // Redirige vers la page d'accueil
-          context.go("/home");
+          
+           FirebaseAuth.instance.currentUser!.emailVerified?
+          context.go("/home"):
+          showToast("svp vérifier ton compte !");
         } else if (state is SingInFailerSFailure) {
           // Affiche l'erreur si la connexion échoue
           showToast(state.errorMessage);

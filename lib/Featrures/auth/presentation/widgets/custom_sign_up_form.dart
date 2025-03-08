@@ -26,12 +26,12 @@ class _CustomSignUpFormState extends State<CustomSignUpForm> {
           // Afficher un indicateur de chargement si nécessaire
         } else if (state is SignupSuccessState) {
           // Récupère l'objet user de l'état
-          var user = state.user; // C'est un seul objet, pas une liste
+// C'est un seul objet, pas une liste
 
-          showToast("Utilisateur est bien créer!");
+          showToast("succée,Vérifier ton email pour vérifier ton compte");
 
           context.go(
-              "/home"); // Utiliser la navigation de go_router pour rediriger
+              "/signIn"); // Utiliser la navigation de go_router pour rediriger
         } else if (state is SingupFailerSFailure) {
           showToast(
               state.errorMessage); // Afficher l'erreur si l'inscription échoue

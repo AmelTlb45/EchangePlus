@@ -32,3 +32,20 @@ class SingInFailerSFailure extends AuthState {
 
   SingInFailerSFailure({required this.errorMessage});
 }
+
+
+// forgot pass
+
+
+class ResetPasswordLoadingState extends AuthState {}
+
+class ResetPasswordSuccessState extends AuthState {
+ // Le constructeur prend un PigeonUserDetails
+}
+
+class ResetPasswordFailerSFailure extends AuthState {
+  final String errorMessage;
+
+  ResetPasswordFailerSFailure({required this.errorMessage});
+}
+
