@@ -18,7 +18,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   GlobalKey<FormState> signupFromKey = GlobalKey();
   GlobalKey<FormState> signinFromKey = GlobalKey();
- GlobalKey<FormState> forgotPasswordFromKey = GlobalKey();
+  GlobalKey<FormState> forgotPasswordFromKey = GlobalKey();
   void updateRole(String? role) {
     selectedRole = role;
     print("Updated role: $selectedRole");
@@ -91,19 +91,22 @@ class AuthCubit extends Cubit<AuthState> {
           email: emailAddress!,
           password: password!,
         );
-        verifyEmail();
-        // Crée un objet PigeonUserDetails à partir de userCredential
+
+        await verifyEmail();
+
         PigeonUserDetails user = PigeonUserDetails(
           name: userCredential.user?.displayName ?? 'No Name',
           email: userCredential.user?.email ?? 'No Email',
           role: selectedRole ?? 'user',
         );
-       
+
+        await addUserProfile(selectedRole!);
+        // Crée un objet PigeonUserDetails à partir de userCredential
         // Ajouter le rôle après l'inscription, ici on peut choisir 'user' comme rôle par défaut
         // Ajouter le rôle après l'inscription
-        await setUserRole(
-            selectedRole!); // Utiliser le rôle sélectionné // Ou 'admin' si tu veux attribuer un rôle admin
-       
+       // await setUserRole(
+          //  selectedRole!); // Utiliser le rôle sélectionné // Ou 'admin' si tu veux attribuer un rôle admin
+
         emit(SignupSuccessState(user)); // Passe l'objet PigeonUserDetails
       } on FirebaseAuthException catch (e) {
         emit(
@@ -141,7 +144,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-   verifyEmail() async {
+  verifyEmail() async {
     await FirebaseAuth.instance.currentUser!.sendEmailVerification();
   }
 
@@ -152,9 +155,10 @@ class AuthCubit extends Cubit<AuthState> {
       // Ajouter un document dans la collection 'users' avec un champ 'role'
       await FirebaseFirestore.instance.collection('users').doc(user.uid).set(
         {
-          'name': "$firstName $lastName", // Nom de l'utilisateur
-          'email': user.email ?? 'No Email',
-          'role': role, // Enregistrer le rôle
+          'email_': user.email ?? 'No Email',
+          'first_name_': "$firstName", // Nom de l'utilisateur
+          'last_name_': " $lastName",
+          'role_': role, // Enregistrer le rôle
         },
         SetOptions(
             merge:
@@ -163,20 +167,20 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
- Future<String> getUserRole() async {
-   User? user = FirebaseAuth.instance.currentUser;
-   if (user == null) return 'user'; // Utilisateur non connecté
-   try {
+  Future<String> getUserRole() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) return 'user'; // Utilisateur non connecté
+    try {
       DocumentSnapshot userDoc = await FirebaseFirestore.instance
           .collection('users')
           .doc(user.uid)
           .get();
       return userDoc.exists ? (userDoc['role'] ?? 'user') : 'user';
-   } catch (e) {
+    } catch (e) {
       print("Erreur lors de la récupération du rôle : $e");
       return 'user'; // Valeur par défaut en cas d'erreur
-   }
-}
+    }
+  }
 
   // Mettre à jour la case des termes et conditions
   // ignore: non_constant_identifier_names
@@ -187,22 +191,24 @@ class AuthCubit extends Cubit<AuthState> {
         TermsAndConditionsUpdateState()); // Émet un nouvel état pour notifier la modification
   }
 
-  
-
-
-   // ignore: non_constant_identifier_names
-   Future<void> ResetPasswordWithLink() async {
+  // ignore: non_constant_identifier_names
+  Future<void> ResetPasswordWithLink() async {
     try {
-
-   emit(ResetPasswordLoadingState());
-     await FirebaseAuth.instance.sendPasswordResetEmail(email: emailAddress!);
-     emit(ResetPasswordSuccessState());
+      emit(ResetPasswordLoadingState());
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: emailAddress!);
+      emit(ResetPasswordSuccessState());
     } catch (e) {
       emit(ResetPasswordFailerSFailure(errorMessage: e.toString()));
-     
     }
   }
 
-  
-
+  addUserProfile(String role) async {
+    CollectionReference users = FirebaseFirestore.instance.collection("users");
+    await users.add({
+      "email": emailAddress,
+      "first_name": firstName,
+      "last_name": lastName,
+      "role": role,
+    });
+  }
 }
