@@ -63,10 +63,10 @@ class _CustomSignInFormState extends State<CustomSignInForm> {
               state is SingupLoadingState
                   ? CircularProgressIndicator(color: AppColors.redColor)
                   : ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async{
                         if (authCubit.signinFromKey.currentState?.validate() ??
                             false) {
-                          authCubit.signInWithEmailAndPassword();
+                        await  authCubit.signInWithEmailAndPassword();
                         }
                       },
                       style: ElevatedButton.styleFrom(

@@ -84,28 +84,20 @@ class AuthCubit extends Cubit<AuthState> {
     if (validateFields()) {
       try {
         emit(SingupLoadingState()); // Afficher un indicateur de chargement
-
         // Créer l'utilisateur avec Firebase
         var userCredential =
             await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailAddress!,
           password: password!,
         );
-
         await verifyEmail();
-
         PigeonUserDetails user = PigeonUserDetails(
           name: userCredential.user?.displayName ?? 'No Name',
           email: userCredential.user?.email ?? 'No Email',
           role: selectedRole ?? 'user',
         );
-
-        await addUserProfile(selectedRole!);
-        // Crée un objet PigeonUserDetails à partir de userCredential
-        // Ajouter le rôle après l'inscription, ici on peut choisir 'user' comme rôle par défaut
-        // Ajouter le rôle après l'inscription
-       // await setUserRole(
-          //  selectedRole!); // Utiliser le rôle sélectionné // Ou 'admin' si tu veux attribuer un rôle admin
+        await AddUserProfile(
+            selectedRole!); // Utiliser le rôle sélectionné // Ou 'admin' si tu veux attribuer un rôle admin
 
         emit(SignupSuccessState(user)); // Passe l'objet PigeonUserDetails
       } on FirebaseAuthException catch (e) {
@@ -129,44 +121,29 @@ class AuthCubit extends Cubit<AuthState> {
       emit(SingInFailerSFailure(
           errorMessage: 'Vérifier ton email et votre mot de passe !'));
       // Gérer les erreurs spécifiques à Firebase Authentication
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-      } else if (e.code == 'invalid-email') {
-        print('the email is invalid.');
-      } else {
-        print("Error: ${e.message}");
-      }
+      _signInHandleException(e);
     } catch (e) {
       // Gérer les autres erreurs
       print("An error occurred: $e");
     }
   }
 
-  verifyEmail() async {
-    await FirebaseAuth.instance.currentUser!.sendEmailVerification();
-  }
-
-  // Mettre à jour le rôle de l'utilisateur dans Firestore
-  Future<void> setUserRole(String role) async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      // Ajouter un document dans la collection 'users' avec un champ 'role'
-      await FirebaseFirestore.instance.collection('users').doc(user.uid).set(
-        {
-          'email_': user.email ?? 'No Email',
-          'first_name_': "$firstName", // Nom de l'utilisateur
-          'last_name_': " $lastName",
-          'role_': role, // Enregistrer le rôle
-        },
-        SetOptions(
-            merge:
-                true), // Utiliser merge pour ne pas écraser les autres champs
-      );
+  // ignore: non_constant_identifier_names
+  void _signInHandleException(FirebaseAuthException e) {
+    if (e.code == 'user-not-found') {
+      print('No user found for that email.');
+    } else if (e.code == 'wrong-password') {
+      print('Wrong password provided for that user.');
+    } else if (e.code == 'invalid-email') {
+      print('the email is invalid.');
+    } else {
+      print("Error: ${e.message}");
     }
   }
 
+  Future<void> verifyEmail() async {
+    await FirebaseAuth.instance.currentUser!.sendEmailVerification();
+  }
   Future<String> getUserRole() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user == null) return 'user'; // Utilisateur non connecté
@@ -182,7 +159,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  // Mettre à jour la case des termes et conditions
   // ignore: non_constant_identifier_names
   void UpdateTermsAndConditionCheckBox({required bool? newValue}) {
     termsAndConditionCheckBoxValue =
@@ -202,13 +178,55 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  addUserProfile(String role) async {
-    CollectionReference users = FirebaseFirestore.instance.collection("users");
-    await users.add({
-      "email": emailAddress,
-      "first_name": firstName,
-      "last_name": lastName,
-      "role": role,
-    });
+  Future<void> AddUserProfile(String role) async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      // Créer ou mettre à jour le profil utilisateur dans la collection "users"
+      await FirebaseFirestore.instance.collection("users").doc(user.uid).set(
+        {
+          "email": user.email,
+          "first_name": firstName, // Prénom de l'utilisateur
+          "last_name": lastName, // Nom de l'utilisateur
+          "role": role, // Rôle de l'utilisateur
+        },
+        SetOptions(
+            merge: true), // merge permet de ne pas écraser les champs existants
+      );
+    }
   }
+   
+   
+   
+   
+   
+   
+   
+   
+   // Mettre à jour le rôle de l'utilisateur dans Firestore
+  //Future<void> setUserRole(String role) async {
+    //User? user = FirebaseAuth.instance.currentUser;
+    //if (user != null) {
+      // Ajouter un document dans la collection 'users' avec un champ 'role'
+      //await FirebaseFirestore.instance.collection('users').doc(user.uid).set(
+        //{
+          //'email': user.email ?? 'No Email',
+          //'name': "$firstName $lastName", // Nom de l'utilisateur
+          //'role': role, // Enregistrer le rôle
+        //},
+        ////SetOptions(
+           // merge:
+             //   true), // Utiliser merge pour ne pas écraser les autres champs
+      //);
+    //}
+  //}
+  // Future<void> addUserProfile(String role) async {
+  // CollectionReference users = FirebaseFirestore.instance.collection("users");
+  //await users.add({
+  //"email": emailAddress,
+  //"first_name": firstName,
+  //"last_name": lastName,
+  //"role": role,
+  //});
+  // }
 }

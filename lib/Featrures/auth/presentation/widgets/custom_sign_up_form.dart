@@ -87,7 +87,7 @@ class _CustomSignUpFormState extends State<CustomSignUpForm> {
               state is SingupLoadingState
                   ? CircularProgressIndicator(color: AppColors.redColor)
                   : ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (authCubit.termsAndConditionCheckBoxValue == true) {
                           if (context.read<AuthCubit>().emailAddress!.isEmpty ||
                               context.read<AuthCubit>().password!.isEmpty ||
@@ -99,7 +99,7 @@ class _CustomSignUpFormState extends State<CustomSignUpForm> {
                           } else if (authCubit.signupFromKey.currentState
                                   ?.validate() ??
                               false) {
-                            authCubit.SignUpWithEmailAndPassword();
+                             await authCubit.SignUpWithEmailAndPassword();
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content: Text(

@@ -1,4 +1,4 @@
-import 'package:echange_plus/Featrures/auth/presentation/widgets/custom_forgot_pass.dart';
+import 'package:echange_plus/Featrures/auth/presentation/widgets/custom_forgot_pass_form.dart';
 import 'package:echange_plus/Featrures/auth/presentation/widgets/forgot_pass_image.dart';
 import 'package:flutter/material.dart';
 import 'package:custom_will_pop_scope/custom_will_pop_scope.dart';  // Importer CustomWillPopScope

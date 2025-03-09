@@ -1,5 +1,5 @@
 import 'package:echange_plus/Featrures/auth/presentation/auth_cubit/auth_cubit.dart';
-import 'package:echange_plus/Featrures/auth/presentation/views/forgot_Password.dart';
+import 'package:echange_plus/Featrures/auth/presentation/views/forgot_Password_view.dart';
 import 'package:echange_plus/Featrures/auth/presentation/views/sign_In_view.dart';
 import 'package:echange_plus/Featrures/auth/presentation/views/sign_up_view.dart';
 import 'package:echange_plus/Featrures/home/presentation/views/home_view.dart';
